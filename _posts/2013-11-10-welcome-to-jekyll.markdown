@@ -1,7 +1,7 @@
 ---
-title:  "Welcome to Jekyll!"
-date:   2013-11-10 10:18:00
-description: Thriller Comedy Horror
+title:  "Welcome to my Shared Notes"
+date:   2016-06-06 10:18:00
+description: welcome
 ---
 
 You'll find this post in your `_posts` directory - edit this post and re-build (or run with the `-w` switch) to see your changes!
