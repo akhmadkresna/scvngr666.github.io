@@ -3,8 +3,7 @@ description: Blogging about stuffs
 meta_description: "Your New Jekyll Site, Blogging about stuffs"
 
 aboutPage: true
-
-markdown: redcarpet
+future: true
 highlighter: pygments
 
 paginate: 20
