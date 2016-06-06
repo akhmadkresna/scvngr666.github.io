@@ -16,7 +16,7 @@ disqus_shortname: 'your-disqus-shortname'
 
 # Details for the RSS feed generator
 url:            'http://scvngr666.github.io'
-author:         'A K'
+author:         'Akhmad Kresna'
 authorTwitter:  'YourTwitterUsername'
 
 permalink:       /:year/:title/
