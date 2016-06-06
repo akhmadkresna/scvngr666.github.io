@@ -4,6 +4,7 @@ meta_description: "Your New Jekyll Site, Blogging about stuffs"
 
 aboutPage: true
 future: true
+markdown: kramdown
 highlighter: pygments
 
 paginate: 20
