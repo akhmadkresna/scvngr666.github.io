@@ -4,6 +4,6 @@ permalink: about/
 profile: true
 ---
 
-This is a static page. It could be an 'about page' if you'd like.
+This blog is where i write my notes. Intersting things that comes to my mind.
 
 {% include footer.html %}
