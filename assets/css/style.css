@@ -68,6 +68,9 @@ h2 {
 	font: italic 19px/1.3em Georgia,serif;
 	color: #bbb;
 }
+.profile {
+  padding: 50px 20px 40px;
+  background-color: #515865; }
 
 .profile #wrapper {
 	background-image: url('{{ site.baseurl }}/assets/images/Kactus-theme-post.png');
