@@ -27,12 +27,14 @@ sub_categ_ids_m2o = fields.Many2one ('product.sub.category', string='Select Sub 
 ## 2. Create the function 
 
 {% highlight ruby %}
+#=> use api.onchange. The function need to be triggered when the boolean fields changed.
 @api.onchange('is_living_room', 'is_bed', 'is_kitchen_stuff', 'is_home_office', 'is_other')
 def onchange_categ(self):
+  #=> create the list that will contain the selected category for setting the many2one field.
   selected_categ = []
   res={}
-  #=> here we go with the beast. the conditional
   
+  #=> here we go with the beast. the conditional.
   if self.is_living_room :
   	selected_categ.append ('is_living_room')
   if self.is_living_room is False:
@@ -58,13 +60,16 @@ def onchange_categ(self):
   if self.is_other is False:
   	if 'is_other' in selected_categ :
   		selected_categ.remove ('is_other')
+        
+  #=> now we set the many2one field domain with the list of selected ids.
   res.update({
   'domain' : {
-  'sub_categ_ids_m2o':[('category','=',list(set(selected_categ)))],
+  	'sub_categ_ids_m2o':[('category','=',list(set(selected_categ)))],
 
-  }
+ 	 }
   })        
-  return res
+ 
+ return res
 
 {% endhighlight %}
 
