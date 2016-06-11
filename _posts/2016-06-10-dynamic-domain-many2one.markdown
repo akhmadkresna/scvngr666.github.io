@@ -1,26 +1,73 @@
 ---
 layout: post
 title: Dynamic domain on many2one based on checkbox
-date: 2016-06-10T20:28:32.000Z
+date: {}
 categories: odoo
 published: true
 ---
-You’ll find this post in your `_posts` directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run `jekyll serve`, which launches a web server and auto-regenerates your site when a file is updated.
+Hey guys.
 
-To add new posts, simply add a file in the `_posts` directory that follows the convention `YYYY-MM-DD-name-of-post.ext` and includes the necessary front matter. Take a look at the source for this post to get an idea about how it works.
+This time i will share my exeperience creating dynamic domain on many2one field based on boolean fields. In this tutorial i created dynamic domain for the product sub category(many2one) and the product category(boolean). So product sub category will display the list of content based on multiple boolean field. Interesting right. So lets get started.
 
-Jekyll also offers powerful support for code snippets:
+## 1. Creating the fields
 
 {% highlight ruby %}
-def print_hi(name)
-  puts "Hi, #{name}"
-end
-print_hi('Tom')
-#=> prints 'Hi, Tom' to STDOUT.
+_inherit = "product.template"
+
+is_living_room  = fields.Boolean(string='Living Room')
+is_kitchen_stuff= fields.Boolean(string='Kitchen & Dining')
+is_bed          = fields.Boolean(string='Bedroom')
+is_home_office  = fields.Boolean(string='Home Office')
+is_other        = fields.Boolean(string='Other')
+#=> boolean fields for checkboxes.
+sub_categ_ids_m2o = fields.Many2one ('product.sub.category', string='Select Sub category')
+#=> dont forget to create the object for many2one relation in this case 'product.sub.category'.
 {% endhighlight %}
 
-Check out the [Jekyll docs][jekyll] for more info on how to get the most out of Jekyll. File all bugs/feature requests at [Jekyll’s GitHub repo][jekyll-gh]. If you have questions, you can ask them on [Jekyll’s dedicated Help repository][jekyll-help].
+## 2. Create the function 
 
-[jekyll]:      http://jekyllrb.com
-[jekyll-gh]:   https://github.com/jekyll/jekyll
-[jekyll-help]: https://github.com/jekyll/jekyll-help
+{% highlight ruby %}
+@api.onchange('is_living_room', 'is_bed', 'is_kitchen_stuff', 'is_home_office', 'is_other')
+def onchange_categ(self):
+  selected_categ = []
+  res={}
+  #=> here we go with the beast. the conditional
+  
+  if self.is_living_room :
+  	selected_categ.append ('is_living_room')
+  if self.is_living_room is False:
+  	if 'is_living_room' in selected_categ :
+  		selected_categ.remove ('is_living_room')
+  if self.is_bed :
+  	selected_categ.append ('is_bed') 
+  if self.is_bed is False:
+  	if 'is_bed' in selected_categ :
+  		selected_categ.remove ('is_bed')
+  if self.is_kitchen_stuff :
+  	selected_categ.append ('is_kitchen_stuff') 
+  if self.is_kitchen_stuff is False:
+  	if 'is_kitchen_stuff' in selected_categ :
+  		selected_categ.remove ('is_kitchen_stuff')
+  if self.is_home_office :
+  	selected_categ.append ('is_home_office') 
+  if self.is_home_office is False:
+  	if 'is_home_office' in selected_categ :
+  		selected_categ.remove ('is_home_office')
+  if self.is_other :
+  	selected_categ.append ('is_other')
+  if self.is_other is False:
+  	if 'is_other' in selected_categ :
+  		selected_categ.remove ('is_other')
+  res.update({
+  'domain' : {
+  'sub_categ_ids_m2o':[('category','=',list(set(selected_categ)))],
+
+  }
+  })        
+  return res
+
+{% endhighlight %}
+
+
+
+
