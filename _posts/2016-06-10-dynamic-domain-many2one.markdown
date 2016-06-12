@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Dynamic domain on many2one based on checkbox
-date: 2016-06-10T20:23:11
+date: {}
 categories: odoo
 published: true
 ---
@@ -22,6 +22,18 @@ is_other        = fields.Boolean(string='Other')
 #=> boolean fields for checkboxes.
 sub_categ_ids_m2o = fields.Many2one ('product.sub.category', string='Select Sub category')
 #=> dont forget to create the object for many2one relation in this case 'product.sub.category'.
+{% endhighlight %}
+
+create the object for the many2one relation product sub category that have parent category.
+{% highlight ruby %}
+_name = "product.sub.category"
+#=> selection field for parent category. 
+category = fields.Selection([('is_living_room','Living Room'),
+							('is_kitchen_stuff','Kitchen & Dining'),
+                            ('is_bed','Bedroom'),
+                            ('is_home_office','Home Office'),
+                            ('is_other','Other')], string='Category')
+name = fields.Char('Sub Category Name')
 {% endhighlight %}
 
 ## 2. Create the function 
@@ -72,7 +84,3 @@ def onchange_categ(self):
  return res
 
 {% endhighlight %}
-
-
-
-
