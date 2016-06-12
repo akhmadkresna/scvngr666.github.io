@@ -11,6 +11,21 @@ This time i will share my exeperience creating dynamic domain on many2one field 
 
 ## 1. Creating the fields
 
+Create the object for the many2one relation product sub category that have parent category. That contain two fields parent category and name.
+
+{% highlight ruby %}
+_name = "product.sub.category"
+#=> selection field for parent category. 
+category = fields.Selection([('is_living_room','Living Room'),
+							('is_kitchen_stuff','Kitchen & Dining'),
+                            ('is_bed','Bedroom'),
+                            ('is_home_office','Home Office'),
+                            ('is_other','Other')], string='Category')
+name = fields.Char('Sub Category Name')
+{% endhighlight %}
+
+Inherit product.template object and add some custom fields. 
+
 {% highlight ruby %}
 _inherit = "product.template"
 
@@ -24,21 +39,11 @@ sub_categ_ids_m2o = fields.Many2one ('product.sub.category', string='Select Sub 
 #=> dont forget to create the object for many2one relation in this case 'product.sub.category'.
 {% endhighlight %}
 
-create the object for the many2one relation product sub category that have parent category. That contain two fields parent category and name.
 
-{% highlight ruby %}
-_name = "product.sub.category"
-#=> selection field for parent category. 
-category = fields.Selection([('is_living_room','Living Room'),
-							('is_kitchen_stuff','Kitchen & Dining'),
-                            ('is_bed','Bedroom'),
-                            ('is_home_office','Home Office'),
-                            ('is_other','Other')], string='Category')
-name = fields.Char('Sub Category Name')
-{% endhighlight %}
 
 ## 2. Create the function 
 
+first we create the conditional
 {% highlight ruby %}
 #=> use api.onchange. The function need to be triggered when the boolean fields changed.
 @api.onchange('is_living_room', 'is_bed', 'is_kitchen_stuff', 'is_home_office', 'is_other')
