@@ -24,7 +24,8 @@ sub_categ_ids_m2o = fields.Many2one ('product.sub.category', string='Select Sub 
 #=> dont forget to create the object for many2one relation in this case 'product.sub.category'.
 {% endhighlight %}
 
-create the object for the many2one relation product sub category that have parent category.
+create the object for the many2one relation product sub category that have parent category. That contain two fields parent category and name.
+
 {% highlight ruby %}
 _name = "product.sub.category"
 #=> selection field for parent category. 
@@ -46,7 +47,8 @@ def onchange_categ(self):
   selected_categ = []
   res={}
   
-  #=> here we go with the beast. the conditional.
+  #=> here we go with the beast. the conditional to append or remove the parent category string    	 into the list for use to set the many2one.
+  
   if self.is_living_room :
   	selected_categ.append ('is_living_room')
   if self.is_living_room is False:
@@ -75,8 +77,8 @@ def onchange_categ(self):
         
   #=> now we set the many2one field domain with the list of selected ids.
   res.update({
-  'domain' : {
-  	'sub_categ_ids_m2o':[('category','=',list(set(selected_categ)))],
+  	'domain' : {
+  		'sub_categ_ids_m2o':[('category','=',list(set(selected_categ)))],
 
  	 }
   })        
@@ -84,3 +86,5 @@ def onchange_categ(self):
  return res
 
 {% endhighlight %}
+
+
