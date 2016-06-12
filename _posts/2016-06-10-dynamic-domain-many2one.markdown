@@ -43,7 +43,8 @@ sub_categ_ids_m2o = fields.Many2one ('product.sub.category', string='Select Sub 
 
 ## 2. Create the function 
 
-first we create the conditional
+first we create the conditional logic when checkbox or checkboxes (the boolean 'parent category' fiedls) checked. for setting the domain in many2one field we need list, so this conditional code is all about manipulating the list.
+
 {% highlight ruby %}
 #=> use api.onchange. The function need to be triggered when the boolean fields changed.
 @api.onchange('is_living_room', 'is_bed', 'is_kitchen_stuff', 'is_home_office', 'is_other')
@@ -52,7 +53,7 @@ def onchange_categ(self):
   selected_categ = []
   res={}
   
-  #=> here we go with the beast. the conditional to append or remove the parent category string    	 into the list for use to set the many2one.
+  #=> here the conditional to append or remove the parent category string    	 into the list for   use to set the many2one.
   
   if self.is_living_room :
   	selected_categ.append ('is_living_room')
@@ -79,7 +80,11 @@ def onchange_categ(self):
   if self.is_other is False:
   	if 'is_other' in selected_categ :
   		selected_categ.remove ('is_other')
-        
+{% endhighlight %}
+
+Now we write the code for set the many2one domain based on list that have been initialized through the conditional before.
+
+{% highlight ruby %}
   #=> now we set the many2one field domain with the list of selected ids.
   res.update({
   	'domain' : {
