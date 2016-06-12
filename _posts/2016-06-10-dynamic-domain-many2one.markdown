@@ -16,7 +16,7 @@ Create the object for the many2one relation product sub category that have paren
 {% highlight ruby %}
 _name = "product.sub.category"
 #=> selection field for parent category. 
-category = fields.Selection([('is_living_room','Living Room'),
+parent_category = fields.Selection([('is_living_room','Living Room'),
 							('is_kitchen_stuff','Kitchen & Dining'),
                             ('is_bed','Bedroom'),
                             ('is_home_office','Home Office'),
@@ -88,7 +88,7 @@ Now we write the code for set the many2one domain based on list that have been i
   #=> now we set the many2one field domain with the list of selected ids.
   res.update({
   	'domain' : {
-  		'sub_categ_ids_m2o':[('category','=',list(set(selected_categ)))],
+  		'sub_categ_ids_m2o':[('parent_category','=',list(set(selected_categ)))],
 
  	 }
   })        
@@ -96,5 +96,8 @@ Now we write the code for set the many2one domain based on list that have been i
  return res
 
 {% endhighlight %}
+
+This code will only display the content of many2one field that 'parent_category' value is in the list. So this is it please comment below if you have some question. Thanks 
+
 
 
