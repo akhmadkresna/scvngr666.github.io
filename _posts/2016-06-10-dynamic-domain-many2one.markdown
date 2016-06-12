@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Dynamic domain on many2one based on checkbox
-date: 2016-06-11T20:23:11
+date: 2016-06-10T20:23:11
 categories: odoo
 published: true
 ---
